@@ -16,7 +16,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def validate_price(self, value):
         if value <= 0:
-            raise serializers.ValidationError("Price    must be greater than 0.")
+            raise serializers.ValidationError("Price must be greater than 0.")
         return value
 
 
@@ -31,6 +31,11 @@ class OrderItemSeraializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSeraializer(many=True, read_only=True)
+    total_price = serializers.SerializerMethodField()
+
+    def get_total_price(self, obj):
+        order_items = obj.items.all()
+        return sum(order_item.item_subtotal for order_item in order_items)
 
     class Meta:
         model = Order
@@ -40,4 +45,5 @@ class OrderSerializer(serializers.ModelSerializer):
             "user",
             "status",
             "items",
+            "total_price",
         )
