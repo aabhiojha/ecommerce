@@ -1,0 +1,50 @@
+GET http://localhost:8000/products/ HTTP/1.1
+
+###
+
+GET http://localhost:8000/product_detail/3/ HTTP/1.1
+
+###
+DELETE http://localhost:8000/product_detail/3/ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU0ODM5NzcwLCJpYXQiOjE3NTQ4Mzg1NzAsImp0aSI6IjZkZjAwYjMxYjMyYjRlNmM5OWI5ZDVkMDdiNmQyZWMyIiwidXNlcl9pZCI6IjEifQ.39b5O-mAAW1PfnMQwrq7ejdAEhjoWxeVKu5H_FPNvMQ
+
+###
+
+POST http://localhost:8000/products/ HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU0ODMxNTY0LCJpYXQiOjE3NTQ4MzEyNjQsImp0aSI6IjViOGY5ODc4OTRkMjRiMmZhYWNmMjg4ZWRhNzJhMjcyIiwidXNlcl9pZCI6IjEifQ.E_De7d483BfYDvSAajT_PG96hWyZV4d1VUUQunLXxOI
+
+{
+    "name": "New Product with authorization",
+    "description": "This is a new product made using jwt Authorization: .",
+    "price": 19.99,
+    "stock": 100
+}
+
+
+###
+
+POST http://localhost:8000/api/token/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "test"
+}
+
+
+###
+// Orders list for a specific user passed though JWT authentication
+GET http://localhost:8000/user-orders/ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU0ODMxNTY0LCJpYXQiOjE3NTQ4MzEyNjQsImp0aSI6IjViOGY5ODc4OTRkMjRiMmZhYWNmMjg4ZWRhNzJhMjcyIiwidXNlcl9pZCI6IjEifQ.E_De7d483BfYDvSAajT_PG96hWyZV4d1VUUQunLXxOI
+
+
+###
+
+
+POST http://localhost:8000/api/token/refresh/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "refresh":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1NDkyMzc1NiwiaWF0IjoxNzU0ODM3MzU2LCJqdGkiOiIwNGNjOGIyOGUzOTY0MzUwYjk0MDY0MDhlZDNkOTQzMiIsInVzZXJfaWQiOiIxIn0.eAJE4MrQbbZUzEFNGGSRe8G4wjG-WvemsyQQVe0X37c"
+}
