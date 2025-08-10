@@ -1,5 +1,6 @@
 from django.db.models import Max
 from django.shortcuts import get_object_or_404
+from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -7,30 +8,24 @@ from api.models import Order, OrderItem, Product
 from api.serializers import OrderSerializer, ProductInfoSerializer, ProductSerializer
 
 
-@api_view(["GET"])
-def product_list(request):
-    product = Product.objects.all()
-    serializer = ProductSerializer(product, many=True)
-    return Response(serializer.data)
+class ProductListAPIView(generics.ListAPIView):
+    # queryset = Product.objects.filter(stock__gt=0)
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
 
 
-@api_view(["GET"])
-def product_detail(request, id):
-    product = get_object_or_404(Product, id=id)
-    serializer = ProductSerializer(product)
-    return Response(serializer.data)
+class ProductDetailAPIView(generics.RetrieveAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_url_kwarg = "product_id"
 
 
-@api_view(["GET"])
-def order_list(request):
-
-    orders = Order.objects.prefetch_related(
+class OrderListAPIView(generics.ListAPIView):
+    queryset = Order.objects.prefetch_related(
         "items",
         "items__product",
     )
-
-    serializer = OrderSerializer(orders, many=True)
-    return Response(serializer.data)
+    serializer_class = OrderSerializer
 
 
 @api_view(["GET"])
